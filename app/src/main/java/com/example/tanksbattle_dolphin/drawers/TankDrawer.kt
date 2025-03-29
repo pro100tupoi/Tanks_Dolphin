@@ -3,6 +3,7 @@ package com.example.tanksbattle_dolphin.drawers
 import android.view.View
 import android.widget.FrameLayout
 import com.example.tanksbattle_dolphin.CELL_SIZE
+import com.example.tanksbattle_dolphin.Utils.checkViewCanMoveThrounghBorder
 import com.example.tanksbattle_dolphin.binding
 import com.example.tanksbattle_dolphin.enums.Direction
 import com.example.tanksbattle_dolphin.models.Coordinate
@@ -32,13 +33,12 @@ class TankDrawer(val container: FrameLayout) {
         }
 
         val nextCoordinate = Coordinate(layoutParams.topMargin, layoutParams.leftMargin)
-        if (checkTankCanMoveThrounghBorder(
-                nextCoordinate,
-                myTank
+        if (myTank.checkViewCanMoveThrounghBorder(
+                nextCoordinate
             ) && checkTankCanMoveThrounghMaterial(nextCoordinate, elementsOnContainer)
         ) {
             binding.container.removeView(myTank)
-            binding.container.addView(myTank)
+            binding.container.addView(myTank, 0)
         } else {
             (myTank.layoutParams as FrameLayout.LayoutParams).topMargin = currentCoordinate.top
             (myTank.layoutParams as FrameLayout.LayoutParams).leftMargin = currentCoordinate.left
@@ -56,25 +56,6 @@ class TankDrawer(val container: FrameLayout) {
             }
         }
         return true
-    }
-
-   //private fun checkTankCanMoveThrounghMaterial(coordinate: Coordinate): Boolean
-   // {
-   //     getTankCoordinates(coordinate).forEach{
-   //         val element = getElementByCoordinates(it)
-   //         if (element != null && !element.material.tankConGoThrough) {
-    //            return false
-    //        }
-    //    }
-   //     return true
-   // }
-
-    private fun checkTankCanMoveThrounghBorder(coordinate: Coordinate, myTank: View): Boolean
-    {
-        return coordinate.top >= 0 &&
-                coordinate.top + myTank.height <= binding.container.height &&
-                coordinate.left >= 0 &&
-                coordinate.left + myTank.width <= binding.container.width
     }
 
     private fun getTankCoordinates(topLeftCoordinate: Coordinate): List<Coordinate>{
