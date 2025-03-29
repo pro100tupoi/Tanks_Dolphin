@@ -19,7 +19,7 @@ class BulletDrawer(val container: FrameLayout) {
     fun makeBulletMove(myTank: View, currentDirection: Direction){
         Thread(Runnable{
             val bullet = createBullet(myTank, currentDirection)
-            while (bullet.checkViewCanMoveThrounghBorder(Coordinate(bullet.top, bullet.left))){
+            while (bullet.checkViewCanMoveThrounghBorder(Coordinate(bullet.top, bullet.left))) {
                 when (currentDirection){
                     Direction.UP ->(bullet.layoutParams as FrameLayout.LayoutParams).topMargin -= BULLET_HEIGHT
                     Direction.DOWN -> (bullet.layoutParams as FrameLayout.LayoutParams).topMargin += BULLET_HEIGHT
@@ -27,18 +27,18 @@ class BulletDrawer(val container: FrameLayout) {
                     Direction.RIGHT -> (bullet.layoutParams as FrameLayout.LayoutParams).leftMargin += BULLET_HEIGHT
                 }
                 Thread.sleep(30)
-                (container.context as Activity).runOnUiThread{
+                (container.context as Activity).runOnUiThread {
                     container.removeView(bullet)
                     container.addView(bullet)
                 }
             }
-            (container.context as Activity).runOnUiThread{
+            (container.context as Activity).runOnUiThread {
                 container.removeView(bullet)
             }
         }).start()
     }
 
-    private fun createBullet(myTank: View, currentDirection: Direction): ImageView{
+    private fun createBullet(myTank: View, currentDirection: Direction): ImageView {
         //val bullet = ImageView(container.context)
         return ImageView(container.context)
             .apply {
