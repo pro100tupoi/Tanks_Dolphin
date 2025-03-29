@@ -3,8 +3,6 @@ package com.example.tanksbattle_dolphin.drawers
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import androidx.core.view.marginLeft
-import androidx.core.view.marginTop
 import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.R
 import com.example.tanksbattle_dolphin.binding
@@ -21,7 +19,36 @@ class ElementsDrawer(val container: FrameLayout) {
         val topMargin = y.toInt() - (y.toInt()% CELL_SIZE)
         val leftMargin = x.toInt() - (x.toInt()% CELL_SIZE)
         val coordinate = Coordinate(topMargin, leftMargin)
+        if(currentMaterial == Material.EMPTY){
+            eraseView(coordinate)
+        } else{
+            drawOrReplaceView(coordinate)
+        }
+    }
+
+    private fun drawOrReplaceView(coordinate: Coordinate){
+        val viewOnCoordinate = getElementByCoordinates(coordinate)
+        if (viewOnCoordinate == null){
+            drawView(coordinate)
+            return
+        }
+        if(viewOnCoordinate.material !=currentMaterial){
+            replaceView(coordinate)
+        }
+    }
+
+    private fun replaceView(coordinate: Coordinate){
+        eraseView(coordinate)
         drawView(coordinate)
+    }
+
+    private fun eraseView(coordinate: Coordinate){
+        val elementOnCoordinate = getElementByCoordinates(coordinate)
+        if (elementOnCoordinate != null){
+            val erasingView = container.findViewById<View>(elementOnCoordinate.viewId)
+            container.removeView(erasingView)
+            elementsOnContaier.remove(elementOnCoordinate)
+        }
     }
 
     fun drawView(coordinate: Coordinate){
@@ -68,10 +95,10 @@ class ElementsDrawer(val container: FrameLayout) {
         }
 
         val nextCoordinate = Coordinate(layoutParams.topMargin, layoutParams.leftMargin)
-        if (chekTankCanMoveThrounghBorder(
+        if (checkTankCanMoveThrounghBorder(
                 nextCoordinate,
                 myTank
-            ) && chekTankCanMoveThrounghMaterial(nextCoordinate)
+            ) && checkTankCanMoveThrounghMaterial(nextCoordinate)
         ) {
             binding.container.removeView(myTank)
             binding.container.addView(myTank)
@@ -84,7 +111,7 @@ class ElementsDrawer(val container: FrameLayout) {
     private fun getElementByCoordinates(coordinate: Coordinate) =
         elementsOnContaier.firstOrNull{ it.coordinate == coordinate }
 
-    private fun chekTankCanMoveThrounghMaterial(coordinate: Coordinate): Boolean
+    private fun checkTankCanMoveThrounghMaterial(coordinate: Coordinate): Boolean
     {
         getTankCoordinates(coordinate).forEach{
             val element = getElementByCoordinates(it)
@@ -95,7 +122,7 @@ class ElementsDrawer(val container: FrameLayout) {
         return true
     }
 
-    private fun chekTankCanMoveThrounghBorder(coordinate: Coordinate, myTank: View): Boolean
+    private fun checkTankCanMoveThrounghBorder(coordinate: Coordinate, myTank: View): Boolean
     {
         return coordinate.top >= 0 &&
                 coordinate.top + myTank.height <= binding.container.height &&
