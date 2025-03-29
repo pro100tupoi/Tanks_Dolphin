@@ -108,8 +108,5 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onKeyDown(keyCode, event)
     }
-
-
-
 }
 // androidx.constraintlayout.widget.ConstraintLayout

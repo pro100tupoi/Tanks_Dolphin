@@ -15,7 +15,7 @@ class TankDrawer(val container: FrameLayout) {
         val layoutParams = myTank.layoutParams as FrameLayout.LayoutParams
         val currentCoordinate = Coordinate(layoutParams.topMargin, layoutParams.leftMargin)
         currentDirection = direction
-        myTank.rotation=direction.rotation
+        myTank.rotation = direction.rotation
         when(direction){
             Direction.UP ->{
                 (myTank.layoutParams as FrameLayout.LayoutParams).topMargin += -CELL_SIZE
