@@ -5,6 +5,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.R
+import com.example.tanksbattle_dolphin.Utils.getElementByCoordinates
 import com.example.tanksbattle_dolphin.binding
 import com.example.tanksbattle_dolphin.enums.Direction
 import com.example.tanksbattle_dolphin.enums.Material
@@ -27,7 +28,7 @@ class ElementsDrawer(val container: FrameLayout) {
     }
 
     private fun drawOrReplaceView(coordinate: Coordinate){
-        val viewOnCoordinate = getElementByCoordinates(coordinate)
+        val viewOnCoordinate = getElementByCoordinates(coordinate, elementsOnContaier)
         if (viewOnCoordinate == null){
             drawView(coordinate)
             return
@@ -43,7 +44,7 @@ class ElementsDrawer(val container: FrameLayout) {
     }
 
     private fun eraseView(coordinate: Coordinate){
-        val elementOnCoordinate = getElementByCoordinates(coordinate)
+        val elementOnCoordinate = getElementByCoordinates(coordinate, elementsOnContaier)
         if (elementOnCoordinate != null){
             val erasingView = container.findViewById<View>(elementOnCoordinate.viewId)
             container.removeView(erasingView)
@@ -71,11 +72,4 @@ class ElementsDrawer(val container: FrameLayout) {
         container.addView(view)
         elementsOnContaier.add(Element(viewId, currentMaterial, coordinate))
     }
-
-
-
-    private fun getElementByCoordinates(coordinate: Coordinate) =
-        elementsOnContaier.firstOrNull{ it.coordinate == coordinate }
-
-
 }

@@ -8,6 +8,7 @@ import com.example.tanksbattle_dolphin.binding
 import com.example.tanksbattle_dolphin.enums.Direction
 import com.example.tanksbattle_dolphin.models.Coordinate
 import com.example.tanksbattle_dolphin.models.Element
+import com.example.tanksbattle_dolphin.Utils.getElementByCoordinates
 
 class TankDrawer(val container: FrameLayout) {
     var currentDirection = Direction.UP
@@ -71,9 +72,4 @@ class TankDrawer(val container: FrameLayout) {
         )
         return coordinateList
     }
-
-    private fun getElementByCoordinates(
-        coordinate: Coordinate, elementsOnContaier: List<Element>
-    ) =
-        elementsOnContaier.firstOrNull{ it.coordinate == coordinate }
 }
