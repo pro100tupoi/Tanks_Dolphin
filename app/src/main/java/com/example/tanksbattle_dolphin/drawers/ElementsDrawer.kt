@@ -28,7 +28,7 @@ class ElementsDrawer(val container: FrameLayout) {
         }
     }
 
-    private fun drawOrReplaceView(coordinate: Coordinate){
+    private fun drawOrReplaceView(coordinate: Coordinate) {
         val viewOnCoordinate = getElementByCoordinates(coordinate, elementsOnContaier)
         if (viewOnCoordinate == null){
             drawView(coordinate)
@@ -39,7 +39,7 @@ class ElementsDrawer(val container: FrameLayout) {
         }
     }
 
-    fun drawElementsList(elements: List<Element>?){
+    fun drawElementsList(elements: List<Element>?) {
         if (elements == null){
             return
         }
@@ -49,14 +49,14 @@ class ElementsDrawer(val container: FrameLayout) {
         }
     }
 
-    private fun replaceView(coordinate: Coordinate){
+    private fun replaceView(coordinate: Coordinate) {
         eraseView(coordinate)
         drawView(coordinate)
     }
 
-    private fun eraseView(coordinate: Coordinate){
+    private fun eraseView(coordinate: Coordinate) {
         removeElement(getElementByCoordinates(coordinate, elementsOnContaier))
-        for (element in getElementsUnderCurrenyCoordinate(coordinate)) {
+        for (element in getElementsUnderCurrentCoordinate(coordinate)) {
             removeElement(element)
         }
     }
@@ -69,15 +69,16 @@ class ElementsDrawer(val container: FrameLayout) {
         }
     }
 
-    private fun getElementsUnderCurrenyCoordinate(coordinate: Coordinate): List<Element>{
+    private fun getElementsUnderCurrentCoordinate(coordinate: Coordinate): List<Element>{
         val elements = mutableListOf<Element>()
         for (element in elementsOnContaier){
-            for (height in 0 until currentMaterial.height){
-                for (width in 0 until currentMaterial.width){
+            for (height in 0 until currentMaterial.height) {
+                for (width in 0 until currentMaterial.width) {
                     if (element.coordinate == Coordinate(
                             coordinate.top + height * CELL_SIZE,
                             coordinate.left + width * CELL_SIZE
-                    )) {
+                        )
+                    ) {
                         elements.add(element)
                     }
                 }
@@ -95,7 +96,7 @@ class ElementsDrawer(val container: FrameLayout) {
     }
 
     private fun drawView(coordinate: Coordinate) {
-        removeExistingEagle()
+        removeIfSingleInstance()
         val view = ImageView(container.context)
         val layoutParams = FrameLayout.LayoutParams(
             currentMaterial.width * CELL_SIZE,
