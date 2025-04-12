@@ -10,7 +10,6 @@ import android.view.KeyEvent.KEYCODE_DPAD_UP
 import android.view.KeyEvent.KEYCODE_SPACE
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import com.example.tanksbattle_dolphin.enums.Direction.UP
@@ -95,7 +94,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideSettings(){
         gridDrawer.removeGrid()
-        binding.materialsContainer.visibility = GONE
+        binding.materialsContainer.visibility = INVISIBLE
 
     }
 
@@ -116,8 +115,20 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
 
+            R.id.menu_play -> {
+                startTheGame()
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun startTheGame(){
+        if (editMode){
+            return
+        }
+        enemyDrawer.startEnemyDrawing(elementsDrawer.elementsOnContaier)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean

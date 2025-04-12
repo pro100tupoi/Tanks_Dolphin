@@ -1,17 +1,18 @@
 package com.example.tanksbattle_dolphin.drawers
 
+import android.app.Activity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.R
+import com.example.tanksbattle_dolphin.Utils.drawElement
 import com.example.tanksbattle_dolphin.Utils.getElementByCoordinates
 import com.example.tanksbattle_dolphin.enums.Material
 import com.example.tanksbattle_dolphin.models.Coordinate
 import com.example.tanksbattle_dolphin.models.Element
-
-
+import com.example.tanksbattle_dolphin.drawers.EnemyDrawer
 
 class ElementsDrawer(val container: FrameLayout) {
     var currentMaterial = Material.EMPTY
@@ -27,21 +28,6 @@ class ElementsDrawer(val container: FrameLayout) {
             drawOrReplaceView(coordinate)
         }
     }
-
-    //fun changeElementsVisibility(editMode: Boolean){
-    //    elementsOnContaier
-    //        .filter { it.material.visibleInEditableModel }
-    //        .forEach { setViewIdVisibility(it.viewId, editMode) }
-    //}
-
-    //private fun setViewIdVisibility(viewId:Int,editMode: Boolean){
-    //    val view = container.findViewById<View>(viewId)
-    //    if(editMode){
-    //        view.visibility = View.VISIBLE
-    //    } else {
-    //        view.visibility = View.GONE
-    //    }
-    //}
 
     private fun drawOrReplaceView(coordinate: Coordinate) {
         val viewOnCoordinate = getElementByCoordinates(coordinate, elementsOnContaier)
@@ -120,26 +106,15 @@ class ElementsDrawer(val container: FrameLayout) {
     }
 
     private fun drawView(coordinate: Coordinate) {
-        //removeIfSingleInstance()
         removeUnwantedInstances()
-        val view = ImageView(container.context)
-        val layoutParams = FrameLayout.LayoutParams(
-            currentMaterial.width * CELL_SIZE,
-            currentMaterial.height * CELL_SIZE
-        )
-        view.setImageResource(currentMaterial.image)
-        layoutParams.topMargin = coordinate.top
-        layoutParams.leftMargin = coordinate.left
         val element = Element(
          material = currentMaterial,
          coordinate = coordinate,
          width = currentMaterial.width,
          height = currentMaterial.height
         )
-        view.id = element.viewId
-        view.layoutParams = layoutParams
-        view.scaleType = ImageView.ScaleType.FIT_XY
-        container.addView(view)
+        element.drawElement(container)
         elementsOnContaier.add(element)
     }
+
 }
