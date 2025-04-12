@@ -10,6 +10,7 @@ import android.view.KeyEvent.KEYCODE_DPAD_UP
 import android.view.KeyEvent.KEYCODE_SPACE
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import com.example.tanksbattle_dolphin.enums.Direction.UP
@@ -19,6 +20,7 @@ import com.example.tanksbattle_dolphin.enums.Direction.RIGHT
 import com.example.tanksbattle_dolphin.databinding.ActivityMainBinding
 import com.example.tanksbattle_dolphin.drawers.BulletDrawer
 import com.example.tanksbattle_dolphin.drawers.ElementsDrawer
+import com.example.tanksbattle_dolphin.drawers.EnemyDrawer
 import com.example.tanksbattle_dolphin.drawers.GridDrawer
 import com.example.tanksbattle_dolphin.drawers.TankDrawer
 import com.example.tanksbattle_dolphin.enums.Material
@@ -49,6 +51,10 @@ class MainActivity : AppCompatActivity() {
         LevelStorage(this)
     }
 
+    private val enemyDrawer by lazy{
+        EnemyDrawer(binding.container)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -58,27 +64,39 @@ class MainActivity : AppCompatActivity() {
 
         binding.editorClear.setOnClickListener{ elementsDrawer.currentMaterial = Material.EMPTY}
         binding.editorBrick.setOnClickListener{ elementsDrawer.currentMaterial = Material.BRICK}
-        binding.materialsContainer.setOnClickListener{
+        binding.editorConcrete.setOnClickListener{
             elementsDrawer.currentMaterial=Material.CONCRETE
         }
         binding.editorGrass.setOnClickListener{ elementsDrawer.currentMaterial = Material.GRASS}
-        binding.editorGrass.setOnClickListener{ elementsDrawer.currentMaterial = Material.EAGLE}
+        binding.editorEagle.setOnClickListener{ elementsDrawer.currentMaterial = Material.EAGLE}
+
         binding.container.setOnTouchListener{ _, event ->
             elementsDrawer.onTouchContainer(event.x, event.y)
             return@setOnTouchListener true
         }
         elementsDrawer.drawElementsList(levelStorage.loadLevel())
+        hideSettings()
     }
 
     private fun switchEditMode() {
-        if(editMode) {
-            gridDrawer.removeGrid()
-            binding.materialsContainer.visibility = INVISIBLE
-        } else {
-            gridDrawer.drawGrid()
-            binding.materialsContainer.visibility = VISIBLE
-        }
         editMode =!editMode
+        if(editMode) {
+            showSettings()
+        } else {
+           hideSettings()
+        }
+    }
+
+    private fun showSettings(){
+        gridDrawer.drawGrid()
+        binding.materialsContainer.visibility = VISIBLE
+
+    }
+
+    private fun hideSettings(){
+        gridDrawer.removeGrid()
+        binding.materialsContainer.visibility = GONE
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

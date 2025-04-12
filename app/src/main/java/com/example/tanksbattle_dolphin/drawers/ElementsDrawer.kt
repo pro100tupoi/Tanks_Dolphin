@@ -28,6 +28,21 @@ class ElementsDrawer(val container: FrameLayout) {
         }
     }
 
+    //fun changeElementsVisibility(editMode: Boolean){
+    //    elementsOnContaier
+    //        .filter { it.material.visibleInEditableModel }
+    //        .forEach { setViewIdVisibility(it.viewId, editMode) }
+    //}
+
+    //private fun setViewIdVisibility(viewId:Int,editMode: Boolean){
+    //    val view = container.findViewById<View>(viewId)
+    //    if(editMode){
+    //        view.visibility = View.VISIBLE
+    //    } else {
+    //        view.visibility = View.GONE
+    //    }
+    //}
+
     private fun drawOrReplaceView(coordinate: Coordinate) {
         val viewOnCoordinate = getElementByCoordinates(coordinate, elementsOnContaier)
         if (viewOnCoordinate == null){
@@ -87,16 +102,26 @@ class ElementsDrawer(val container: FrameLayout) {
         return elements
     }
 
-    private fun removeIfSingleInstance() {
-        if (currentMaterial.canExistOnlyOne){
-            elementsOnContaier.firstOrNull { it.material == currentMaterial }?.coordinate?.let {
-                eraseView(it)
+    //private fun removeIfSingleInstance() {
+    //    if (currentMaterial.canExistOnlyOne){
+    //       elementsOnContaier.firstOrNull { it.material == currentMaterial }?.coordinate?.let {
+    //            eraseView(it)
+    //        }
+    //    }
+    //}
+
+    private fun removeUnwantedInstances(){
+        if (currentMaterial.elementsAmountOnScreen != 0) {
+            val erasingElements = elementsOnContaier.filter { it.material == currentMaterial}
+            if (erasingElements.size >= currentMaterial.elementsAmountOnScreen) {
+                eraseView(erasingElements[0].coordinate)
             }
         }
     }
 
     private fun drawView(coordinate: Coordinate) {
-        removeIfSingleInstance()
+        //removeIfSingleInstance()
+        removeUnwantedInstances()
         val view = ImageView(container.context)
         val layoutParams = FrameLayout.LayoutParams(
             currentMaterial.width * CELL_SIZE,
