@@ -1,5 +1,6 @@
 package com.example.tanksbattle_dolphin.drawers
 
+import android.icu.lang.UProperty
 import android.widget.FrameLayout
 import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.Utils.drawElement
@@ -10,10 +11,13 @@ import com.example.tanksbattle_dolphin.models.Element
 
 private const val MAX_ENEMY_AMOUNT = 20
 
-class EnemyDrawer(private val container: FrameLayout) {
+class EnemyDrawer(private val container: FrameLayout,
+    private val elements: MutableList<Element>
+    ) {
     private val respawnList: List<Coordinate>
     private var enemyAmount = 0
     private var currentCoordinate:Coordinate
+
 
     init{
         respawnList = getRespawnList()
@@ -40,26 +44,28 @@ class EnemyDrawer(private val container: FrameLayout) {
         return respawnList
     }
 
-    private fun drawEnemy(elements: MutableList<Element>) {
+    private fun drawEnemy() {
         var index = respawnList.indexOf(currentCoordinate) + 1
         if (index == respawnList.size) {
             index = 0
         }
         currentCoordinate = respawnList[index]
-        val enemyTankElement = Element(
-            material = Material.ENEMY_TANK, //ну пиздец
-            coordinate  = currentCoordinate,
-            width = Material.ENEMY_TANK.width,
-            height = Material.ENEMY_TANK.height
+        val enemyTankElement = Tank(
+            Element(
+                material = Material.ENEMY_TANK, //ну пиздец
+                coordinate  = currentCoordinate,
+                width = Material.ENEMY_TANK.width,
+                height = Material.ENEMY_TANK.height
+            ), UP
         )
-        enemyTankElement.drawElement(container)
-        elements.add(enemyTankElement)
+        enemyTankElement.element.drawElement(container)
+        elements.add(enemyTank.element)
     }
 
-    fun startEnemyDrawing(elements: MutableList<Element>) {
+    fun startEnemyCreating() {
         Thread(Runnable {
             while (enemyAmount < MAX_ENEMY_AMOUNT) {
-                drawEnemy(elements)
+                drawEnemy()
                 enemyAmount++
                 Thread.sleep(3000)
             }
