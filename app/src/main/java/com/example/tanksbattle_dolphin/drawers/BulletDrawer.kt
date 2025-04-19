@@ -8,7 +8,6 @@ import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.R
 import com.example.tanksbattle_dolphin.Utils.checkViewCanMoveThrounghBorder
 import com.example.tanksbattle_dolphin.Utils.getElementByCoordinates
-import com.example.tanksbattle_dolphin.Utils.runOnUiThread
 import com.example.tanksbattle_dolphin.enums.Direction
 import com.example.tanksbattle_dolphin.models.Coordinate
 import com.example.tanksbattle_dolphin.models.Element
@@ -16,7 +15,7 @@ import com.example.tanksbattle_dolphin.models.Element
 private const val BULLET_WIDTH = 15
 private const val BULLET_HEIGHT = 15
 
-class BulletDrawer(private val container: FrameLayout) {
+class BulletDrawer(val container: FrameLayout) {
 
     private var canBulletGoFurther = true
     private var bulletThread: Thread? = null
@@ -47,14 +46,13 @@ class BulletDrawer(private val container: FrameLayout) {
                         currentDirection,
                         Coordinate(
                             (bullet.layoutParams as FrameLayout.LayoutParams).topMargin,
-                            (bullet.layoutParams as FrameLayout.LayoutParams).leftMargin)
-                    )
-                    container.runOnUiThread {
+                            (bullet.layoutParams as FrameLayout.LayoutParams).leftMargin))
+                    (container.context as Activity).runOnUiThread {
                         container.removeView(bullet)
                         container.addView(bullet)
                     }
                 }
-                container.runOnUiThread {
+                (container.context as Activity).runOnUiThread {
                     container.removeView(bullet)
                 }
             })
@@ -113,7 +111,9 @@ class BulletDrawer(private val container: FrameLayout) {
     private fun removeView(element: Element?) {
         val activity = container.context as Activity
         activity.runOnUiThread {
-            container.removeView(activity.findViewById(element!!.viewId))
+            if (element != null) {
+                container.removeView(activity.findViewById(element.viewId))
+            }
         }
     }
 
