@@ -5,8 +5,11 @@ import android.widget.FrameLayout
 import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.Utils.checkViewCanMoveThrounghBorder
 import com.example.tanksbattle_dolphin.Utils.getElementByCoordinates
+import com.example.tanksbattle_dolphin.Utils.runOnUiThread
 import com.example.tanksbattle_dolphin.binding
 import com.example.tanksbattle_dolphin.enums.Direction
+import com.example.tanksbattle_dolphin.enums.Material
+import kotlin.random.Random
 
 class Tank (
     var element: Element,
@@ -26,13 +29,27 @@ class Tank (
         if (view.checkViewCanMoveThrounghBorder(nextCoordinate)
             && element.checkTankCanMoveThrounghMaterial(nextCoordinate, elementsOnContainer)
         ) {
-            binding.container.removeView(view)
-            binding.container.addView(view, 0)
+            emulateViewMoving(container, view)
             element.coordinate = nextCoordinate
         } else {
             element.coordinate = currentCoordinate
             (view.layoutParams as FrameLayout.LayoutParams).topMargin = currentCoordinate.top
             (view.layoutParams as FrameLayout.LayoutParams).leftMargin = currentCoordinate.left
+            changeDirectionForEnemyTank()
+        }
+    }
+
+    private fun changeDirectionForEnemyTank() {
+        if (element.material == Material.ENEMY_TANK) {
+            val randomDirection = Direction.entries[Random.nextInt(Direction.entries.size)] //бла бла бла блу блу блу
+            this.direction = randomDirection
+        }
+    }
+
+    private fun emulateViewMoving(container: FrameLayout, view: View) {
+        container.runOnUiThread {
+            binding.container.removeView(view)
+            binding.container.addView(view, 0)
         }
     }
 
