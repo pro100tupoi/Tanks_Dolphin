@@ -10,11 +10,11 @@ import com.example.tanksbattle_dolphin.models.Coordinate
 import com.example.tanksbattle_dolphin.models.Element
 
 fun View.checkViewCanMoveThrounghBorder(coordinate: Coordinate): Boolean {
-        return coordinate.top >= 0 &&
-                coordinate.top + this.height <= binding.container.height &&
-                coordinate.left >= 0 &&
-                coordinate.left + this.width <= binding.container.width
-    }
+    return coordinate.top >= 0 &&
+            coordinate.top + this.height <= binding.container.height &&
+            coordinate.left >= 0 &&
+            coordinate.left + this.width <= binding.container.width
+}
 
 fun getElementByCoordinates(
     coordinate: Coordinate,
@@ -34,7 +34,7 @@ fun getElementByCoordinates(
         }
     }
     return null
- }
+}
 
 fun Element.drawElement(container: FrameLayout) {
     val view = ImageView(container.context)
@@ -48,7 +48,14 @@ fun Element.drawElement(container: FrameLayout) {
     view.id = this.viewId
     view.layoutParams = layoutParams
     view.scaleType = ImageView.ScaleType.FIT_XY
-    (container.context as Activity).runOnUiThread {
+    container.runOnUiThread {
         container.addView(view)
+    }
+
+}
+
+fun FrameLayout.runOnUiThread(block: () -> Unit) {
+    (this.context as Activity).runOnUiThread {
+        block()
     }
 }
