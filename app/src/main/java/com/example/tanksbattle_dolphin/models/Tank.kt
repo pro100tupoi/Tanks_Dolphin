@@ -7,13 +7,15 @@ import com.example.tanksbattle_dolphin.Utils.checkViewCanMoveThrounghBorder
 import com.example.tanksbattle_dolphin.Utils.getElementByCoordinates
 import com.example.tanksbattle_dolphin.Utils.runOnUiThread
 import com.example.tanksbattle_dolphin.binding
+import com.example.tanksbattle_dolphin.drawers.BulletDrawer
 import com.example.tanksbattle_dolphin.enums.Direction
 import com.example.tanksbattle_dolphin.enums.Material
 import kotlin.random.Random
 
-class Tank (
+class Tank constructor(
     var element: Element,
-    var direction: Direction
+    var direction: Direction,
+    val bulletDrawer: BulletDrawer
 ) {
     fun move(
         direction: Direction,

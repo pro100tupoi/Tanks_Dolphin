@@ -43,11 +43,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun createTank(elementWidth: Int, elementHight: Int): Tank {
         playerTank = Tank(
-                Element(
-                    material =  PLAYER_TANK,
-                    coordinate = getPlayerTankCoordinate(elementWidth, elementHight),
-                ), UP
-            )
+            Element(
+                material =  PLAYER_TANK,
+                coordinate = getPlayerTankCoordinate(elementWidth, elementHight),
+            ), UP
+        )
         return playerTank
     }
 
@@ -78,10 +78,6 @@ class MainActivity : AppCompatActivity() {
         ElementsDrawer(binding.container)
     }
 
-    private val bulletDrawer by lazy{
-        BulletDrawer(binding.container)
-    }
-
     private val levelStorage by lazy{
         LevelStorage(this)
     }
@@ -103,14 +99,14 @@ class MainActivity : AppCompatActivity() {
             elementsDrawer.currentMaterial=Material.CONCRETE
         }
         binding.editorGrass.setOnClickListener{ elementsDrawer.currentMaterial = Material.GRASS}
-        binding.editorEagle.setOnClickListener{ elementsDrawer.currentMaterial = EAGLE}
-
         binding.container.setOnTouchListener{ _, event ->
+            if (!editMode) {
+                return@setOnTouchListener true
+            }
             elementsDrawer.onTouchContainer(event.x, event.y)
             return@setOnTouchListener true
         }
         elementsDrawer.drawElementsList(levelStorage.loadLevel())
-        //elementsDrawer.drawElementsList(listOf(playerTank.element, eagle))
         hideSettings()
         countWidthHeight()
     }
@@ -196,10 +192,10 @@ class MainActivity : AppCompatActivity() {
             KEYCODE_DPAD_LEFT -> move(LEFT)
             KEYCODE_DPAD_RIGHT -> move(RIGHT)
 
-            KEYCODE_SPACE -> bulletDrawer.makeBulletMove(
-                binding.container.findViewById(playerTank.element.viewId),
-                playerTank.direction,
-                elementsDrawer.elementsOnContaier)
+            KEYCODE_SPACE -> playerTank.bulletDrawer.makeBulletMove(
+                playerTank,
+                elementsDrawer.elementsOnContaier
+            )
         }
         return super.onKeyDown(keyCode, event)
     }
