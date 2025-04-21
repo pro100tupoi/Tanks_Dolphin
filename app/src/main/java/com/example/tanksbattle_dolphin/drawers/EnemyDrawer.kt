@@ -57,8 +57,6 @@ class EnemyDrawer(private val container: FrameLayout,
             Element(
                 material = ENEMY_TANK, //ну пиздец
                 coordinate  = currentCoordinate,
-                width = ENEMY_TANK.width,
-                height = ENEMY_TANK.height
             ), DOWN
         )
         enemyTank.element.drawElement(container)
