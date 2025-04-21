@@ -6,8 +6,12 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.binding
+import com.example.tanksbattle_dolphin.enums.Direction
 import com.example.tanksbattle_dolphin.models.Coordinate
 import com.example.tanksbattle_dolphin.models.Element
+import com.example.tanksbattle_dolphin.models.Tank
+
+const val TOTAL_PERCENT = 100
 
 fun View.checkViewCanMoveThrounghBorder(coordinate: Coordinate): Boolean {
     return coordinate.top >= 0 &&
@@ -36,6 +40,10 @@ fun getElementByCoordinates(
     return null
 }
 
+fun getTankByCoordinates(coordinate: Coordinate, tankList: List<Tank>): Element? {
+    return getElementByCoordinates(coordinate, tankList.map { it.element })
+}
+
 fun Element.drawElement(container: FrameLayout) {
     val view = ImageView(container.context)
     val layoutParams = FrameLayout.LayoutParams(
@@ -51,11 +59,14 @@ fun Element.drawElement(container: FrameLayout) {
     container.runOnUiThread {
         container.addView(view)
     }
-
 }
 
 fun FrameLayout.runOnUiThread(block: () -> Unit) {
     (this.context as Activity).runOnUiThread {
         block()
     }
+}
+
+fun checkIfChanceBiggerThanRandom(percentChance: Int): Boolean {
+    return kotlin.random.Random.nextInt(TOTAL_PERCENT) <= percentChance //снова что то не то
 }

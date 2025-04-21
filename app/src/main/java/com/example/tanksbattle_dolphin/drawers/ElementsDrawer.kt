@@ -89,14 +89,6 @@ class ElementsDrawer(val container: FrameLayout) {
         return elements
     }
 
-    //private fun removeIfSingleInstance() {
-    //    if (currentMaterial.canExistOnlyOne){
-    //       elementsOnContaier.firstOrNull { it.material == currentMaterial }?.coordinate?.let {
-    //            eraseView(it)
-    //        }
-    //    }
-    //}
-
     private fun removeUnwantedInstances(){
         if (currentMaterial.elementsAmountOnScreen != 0) {
             val erasingElements = elementsOnContaier.filter { it.material == currentMaterial}

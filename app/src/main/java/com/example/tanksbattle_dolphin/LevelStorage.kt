@@ -19,11 +19,18 @@ class LevelStorage(val context: Context) {
     }
 
     fun loadLevel():List<Element>? {
-        val levelFromPrefs = prefs.getString(KEY_LEVEL, null)
-        levelFromPrefs?.let {
-            val type = object : TypeToken<List<Element>>() {}.type
-            return Gson().fromJson(it, type)
+        val levelFromPrefs = prefs.getString(KEY_LEVEL, null) ?: return null
+        val type = object : TypeToken<List<Element>>() {}.type
+        val elementsFromStorage: List<Element> = Gson().fromJson(levelFromPrefs, type)// хз хз что то тут ни так
+        val elementsWithNewIds = mutableListOf<Element>()
+        elementsFromStorage.forEach {
+            elementsWithNewIds.add(
+                Element(
+                    material = it.material,
+                    coordinate = it.coordinate
+                )
+            )
         }
-        return null
+        return elementsWithNewIds
     }
 }

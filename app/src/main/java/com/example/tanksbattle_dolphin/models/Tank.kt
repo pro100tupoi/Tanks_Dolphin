@@ -3,9 +3,7 @@ package com.example.tanksbattle_dolphin.models
 import android.view.View
 import android.widget.FrameLayout
 import com.example.tanksbattle_dolphin.CELL_SIZE
-import com.example.tanksbattle_dolphin.Utils.checkViewCanMoveThrounghBorder
-import com.example.tanksbattle_dolphin.Utils.getElementByCoordinates
-import com.example.tanksbattle_dolphin.Utils.runOnUiThread
+import com.example.tanksbattle_dolphin.Utils.*
 import com.example.tanksbattle_dolphin.binding
 import com.example.tanksbattle_dolphin.drawers.BulletDrawer
 import com.example.tanksbattle_dolphin.enums.Direction
@@ -33,10 +31,20 @@ class Tank constructor(
         ) {
             emulateViewMoving(container, view)
             element.coordinate = nextCoordinate
+
         } else {
             element.coordinate = currentCoordinate
             (view.layoutParams as FrameLayout.LayoutParams).topMargin = currentCoordinate.top
             (view.layoutParams as FrameLayout.LayoutParams).leftMargin = currentCoordinate.left
+            changeDirectionForEnemyTank()
+        }
+    }
+
+    private fun generateRandomDirectionForEnemyTank() {
+        if (element.material != Material.ENEMY_TANK) {
+            return
+        }
+        if (checkIfChanceBiggerThanRandom(10)) {
             changeDirectionForEnemyTank()
         }
     }
@@ -86,14 +94,15 @@ class Tank constructor(
         elementsOnContainer: List<Element>
     ): Boolean {
         for (anyCoordinate in getTankCoordinates(coordinate)) {
-            for (anyCoordinate in getTankCoordinates(element.coordinate)) {
-                val element = getElementByCoordinates(anyCoordinate, elementsOnContainer)
-                if (element!=null && !element.material.tankConGoThrough){
-                    if (this == element){
-                        continue
-                    }
-                    return false
+            var element = getElementByCoordinates(anyCoordinate, elementsOnContainer)
+            if (element == null) {
+                element = getTankByCoordinates(anyCoordinate, bulletDrawer.enemyDrawer.tanks)
+            }
+            if (element!=null && !element.material.tankConGoThrough){
+                if (this == element){
+                    continue
                 }
+                return false
             }
         }
         return true
