@@ -3,6 +3,7 @@ package com.example.tanksbattle_dolphin.drawers
 import android.widget.FrameLayout
 import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.GameCore.isPlaying
+import com.example.tanksbattle_dolphin.SoundManager
 import com.example.tanksbattle_dolphin.Utils.checkIfChanceBiggerThanRandom
 import com.example.tanksbattle_dolphin.Utils.drawElement
 import com.example.tanksbattle_dolphin.binding
@@ -82,12 +83,17 @@ class EnemyDrawer(
     }
 
     private fun goThroughAllTanks() {
-            tanks.toList().forEach {
-                it.move(it.direction, container, elements)
-                if (checkIfChanceBiggerThanRandom(10)) {
-                    bulletDrawer.addNewBulletForTank(it)
-                }
+        if (tanks.isNotEmpty()) {
+            SoundManager.tankMove()
+        } else {
+            SoundManager.tankStop()
+        }
+        tanks.toList().forEach {
+            it.move(it.direction, container, elements)
+            if (checkIfChanceBiggerThanRandom(10)) {
+                bulletDrawer.addNewBulletForTank(it)
             }
+        }
     }
 
     fun startEnemyCreation() {
@@ -109,7 +115,6 @@ class EnemyDrawer(
     }
 
     fun removeTank(tankIndex: Int) {
-        if (tankIndex <0) return
         tanks.removeAt(tankIndex)
     }
 }

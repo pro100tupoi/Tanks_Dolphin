@@ -7,6 +7,7 @@ import android.widget.ImageView
 import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.GameCore.isPlaying
 import com.example.tanksbattle_dolphin.R
+import com.example.tanksbattle_dolphin.SoundManager
 import com.example.tanksbattle_dolphin.Utils.*
 import com.example.tanksbattle_dolphin.enums.Direction
 import com.example.tanksbattle_dolphin.enums.Material
@@ -34,6 +35,7 @@ class BulletDrawer(
         val view = container.findViewById<View>(tank.element.viewId) ?: return
         if (tank.alreadyHasBullet()) return
         allBullets.add(Bullet(createBullet(view, tank.direction), tank.direction, tank))
+        SoundManager.bulletShot()
     }
 
     private fun Tank.alreadyHasBullet(): Boolean =
@@ -153,6 +155,8 @@ class BulletDrawer(
     private fun removeTank(element: Element) {
         val tanksElements = enemyDrawer.tanks.map { it.element }
         val tankIndex = tanksElements.indexOf(element)
+        if (tankIndex < 0) return
+        SoundManager.BulletBurst()
         enemyDrawer.removeTank(tankIndex)
     }
 
