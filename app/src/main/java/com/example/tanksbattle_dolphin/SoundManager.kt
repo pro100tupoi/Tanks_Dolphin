@@ -1,29 +1,31 @@
 package com.example.tanksbattle_dolphin
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.media.MediaPlayer
 
-@SuppressLint("StaticFieldLeak")
-object SoundManager {
-    private lateinit var bulletBurstPlayer: MediaPlayer
-    private lateinit var bulletShotPlayer: MediaPlayer
-    private lateinit var introMusicPlayer: MediaPlayer
-    private lateinit var tankMovePlayerFirst: MediaPlayer
-    private lateinit var tankMovePlayerSecond: MediaPlayer
+class SoundManager(context: Context) {
+    private val bulletBurstPlayer = MediaPlayer.create(context, R.raw.bullet_burst)
+    private val bulletShotPlayer = MediaPlayer.create(context, R.raw.bullet_shot)
+    private val introMusicPlayer = MediaPlayer.create(context, R.raw.tanks_pre_music)
+    private val tankMovePlayerFirst = MediaPlayer.create(context, R.raw.tank_move_long)
+    private val tankMovePlayerSecond = MediaPlayer.create(context, R.raw.tank_move_long)
     private var isIntroFinished = false
 
-    var context: Context? = null
-        set(value) {
-            bulletBurstPlayer = MediaPlayer.create(value, R.raw.bullet_burst)
-            bulletShotPlayer = MediaPlayer.create(value, R.raw.bullet_shot)
-            introMusicPlayer = MediaPlayer.create(value, R.raw.tanks_pre_music)
-            prepareGapLessTankMoveSound(value!!)
-        }
+    init {
+        prepareGapLessTankMoveSound()
+    }
 
-    private fun prepareGapLessTankMoveSound(context: Context) {
-        tankMovePlayerSecond = MediaPlayer.create(context, R.raw.tank_move_long)
-        tankMovePlayerFirst = MediaPlayer.create(context, R.raw.tank_move_long)
+//    var context: Context? = null
+//        set(value) {
+//            bulletBurstPlayer = MediaPlayer.create(value, R.raw.bullet_burst)
+//            bulletShotPlayer = MediaPlayer.create(value, R.raw.bullet_shot)
+//            introMusicPlayer = MediaPlayer.create(value, R.raw.tanks_pre_music)
+//            prepareGapLessTankMoveSound(value!!)
+//        }
+
+    private fun prepareGapLessTankMoveSound() {
+//        tankMovePlayerSecond = MediaPlayer.create(context, R.raw.tank_move_long)
+//        tankMovePlayerFirst = MediaPlayer.create(context, R.raw.tank_move_long)
         tankMovePlayerFirst.isLooping = true
         tankMovePlayerSecond.isLooping = true
         tankMovePlayerFirst.setNextMediaPlayer(tankMovePlayerSecond)
@@ -52,7 +54,7 @@ object SoundManager {
         bulletShotPlayer.start()
     }
 
-    fun BulletBurst() {
+    fun bulletBurst() {
         bulletBurstPlayer.start()
     }
 
