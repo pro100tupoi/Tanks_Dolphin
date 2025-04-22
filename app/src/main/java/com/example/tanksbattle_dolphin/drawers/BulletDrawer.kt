@@ -20,7 +20,7 @@ private const val BULLET_HEIGHT = 15
 class BulletDrawer(
     private val container: FrameLayout,
     private val elements:MutableList<Element>,
-    val enemyDrawer: EnemyDrawer
+    private val enemyDrawer: EnemyDrawer
     ) {
 
     init {
@@ -50,63 +50,31 @@ class BulletDrawer(
     private fun interactWithAllBullets() {
         allBullets.forEach { bullet ->
             val view = bullet.view
-            if (view.canBulletGoFurther()) {
+            if (bullet.canBulletGoFurther()) {
                 when (bullet.direction) {
                     Direction.UP -> (view.layoutParams as FrameLayout.LayoutParams).topMargin -= BULLET_HEIGHT
                     Direction.DOWN -> (view.layoutParams as FrameLayout.LayoutParams).topMargin += BULLET_HEIGHT
                     Direction.LEFT -> (view.layoutParams as FrameLayout.LayoutParams).leftMargin -= BULLET_HEIGHT
                     Direction.RIGHT -> (view.layoutParams as FrameLayout.LayoutParams).leftMargin += BULLET_HEIGHT
                 }
-                chooseBehaviorInTermsOfDirections(bullet.direction, view.getViewCoordinate())
+                chooseBehaviorInTermsOfDirections(bullet)
                 container.runOnUiThread {
                     container.removeView(view)
                     container.addView(view)
                 }
             } else{
-                stopBullet()
+                stopBullet(bullet)
             }
         }
+        val removingList = allBullets.filter { !it.canMoveFurther }
+        removingList.forEach {
+            stopBullet(it)
+            container.runOnUiThread {
+                container.removeView(it.view)
+            }
+        }
+        allBullets.removeAll(removingList)
     }
-
-//
-//    private var canBulletGoFurther = true
-//    private var bulletThread: Thread? = null
-//    private lateinit var tank: Tank
-//
-//    private fun checkBulletThreadDlive() = bulletThread != null && bulletThread!!.isAlive
-//
-//    fun makeBulletMove(tank: Tank) {
-//        canBulletGoFurther = true
-//        this.tank = tank
-//        val currentDirection = tank.direction
-//        if (!checkBulletThreadDlive()) {
-//            bulletThread = Thread(Runnable {
-//                val view = container.findViewById<View>(this.tank.element.viewId) ?: return@Runnable
-//                val bullet = createBullet(view, currentDirection)
-//                while (bullet.canBulletGoFurther()) {
-//                    when (currentDirection) {
-//                        Direction.UP -> (bullet.layoutParams as FrameLayout.LayoutParams).topMargin -= BULLET_HEIGHT
-//                        Direction.DOWN -> (bullet.layoutParams as FrameLayout.LayoutParams).topMargin += BULLET_HEIGHT
-//                        Direction.LEFT -> (bullet.layoutParams as FrameLayout.LayoutParams).leftMargin -= BULLET_HEIGHT
-//                        Direction.RIGHT -> (bullet.layoutParams as FrameLayout.LayoutParams).leftMargin += BULLET_HEIGHT
-//                    }
-//                    Thread.sleep(30)
-//                    chooseBehaviorInTermsOfDirections(
-//                        currentDirection,
-//                        bullet.getViewCoordinate()
-//                    )
-//                    container.runOnUiThread {
-//                        container.removeView(bullet)
-//                        container.addView(bullet)
-//                    }
-//                }
-//                container.runOnUiThread {
-//                    container.removeView(bullet)
-//                }
-//            })
-//            bulletThread!!.start()
-//        }
-//    }
 
     private fun Bullet.canBulletGoFurther() =
         this.view.checkViewCanMoveThrounghBorder(this.view.getViewCoordinate())

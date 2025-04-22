@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                 material =  PLAYER_TANK,
                 coordinate = getPlayerTankCoordinate(elementWidth, elementHight),
             ), UP ,
-            BulletDrawer(binding.container, elementsDrawer.elementsOnContaier, enemyDrawer)
+            enemyDrawer
         )
         return playerTank
     }
@@ -133,6 +133,7 @@ class MainActivity : AppCompatActivity() {
                     eagle = createEagle(elementWidth, elementHight)
 
                     elementsDrawer.drawElementsList(listOf(playerTank.element, eagle))
+                    enemyDrawer.bulletDrawer = bulletDrawer
                 }
             })
     }
@@ -200,7 +201,7 @@ class MainActivity : AppCompatActivity() {
             KEYCODE_DPAD_UP -> move(UP)
             KEYCODE_DPAD_LEFT -> move(LEFT)
             KEYCODE_DPAD_RIGHT -> move(RIGHT)
-            KEYCODE_SPACE -> playerTank.bulletDrawer.addNewBulletForTank(playerTank)
+            KEYCODE_SPACE -> bulletDrawer.addNewBulletForTank(playerTank)
         }
         return super.onKeyDown(keyCode, event)
     }

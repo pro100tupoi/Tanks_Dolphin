@@ -6,6 +6,7 @@ import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.Utils.*
 import com.example.tanksbattle_dolphin.binding
 import com.example.tanksbattle_dolphin.drawers.BulletDrawer
+import com.example.tanksbattle_dolphin.drawers.EnemyDrawer
 import com.example.tanksbattle_dolphin.enums.Direction
 import com.example.tanksbattle_dolphin.enums.Material
 import kotlin.random.Random
@@ -13,7 +14,7 @@ import kotlin.random.Random
 class Tank constructor(
     var element: Element,
     var direction: Direction,
-    val bulletDrawer: BulletDrawer
+    private val enemyDrawer: EnemyDrawer
 ) {
     fun move(
         direction: Direction,
@@ -89,7 +90,7 @@ class Tank constructor(
         for (anyCoordinate in getTankCoordinates(coordinate)) {
             var element = getElementByCoordinates(anyCoordinate, elementsOnContainer)
             if (element == null) {
-                element = getTankByCoordinates(anyCoordinate, bulletDrawer.enemyDrawer.tanks)
+                element = getTankByCoordinates(anyCoordinate, enemyDrawer.tanks)
             }
             if (element!=null && !element.material.tankConGoThrough){
                 if (this == element){

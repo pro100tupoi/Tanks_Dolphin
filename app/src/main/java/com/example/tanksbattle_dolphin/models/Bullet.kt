@@ -8,6 +8,6 @@ data class Bullet (
     val view: View,
     val direction: Direction,
     val tank: Tank,
-    val canMoveFurther: Boolean = true
+    var canMoveFurther: Boolean = true
     )
 
