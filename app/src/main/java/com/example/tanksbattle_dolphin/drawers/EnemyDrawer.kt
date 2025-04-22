@@ -81,7 +81,7 @@ class EnemyDrawer(
             tanks.forEach {
                 it.move(it.direction, container, elements)
                 if (checkIfChanceBiggerThanRandom(10)) {
-                    it.bulletDrawer.makeBulletMove(it)
+                    it.bulletDrawer.addNewBulletForTank(it)
                 }
             }
         })

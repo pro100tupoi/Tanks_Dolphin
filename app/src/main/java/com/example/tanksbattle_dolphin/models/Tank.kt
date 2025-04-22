@@ -22,7 +22,7 @@ class Tank constructor(
     ){
         val view = container.findViewById<View>(element.viewId) ?: return
 
-        val currentCoordinate = getTankCurrentCoordinate(view)
+        val currentCoordinate = view.getViewCoordinate()
         this.direction = direction
         view.rotation = direction.rotation
         val nextCoordinate = getTankNextCoordinate(view)
@@ -61,13 +61,6 @@ class Tank constructor(
             binding.container.removeView(view)
             binding.container.addView(view, 0)
         }
-    }
-
-    private fun getTankCurrentCoordinate(tank: View): Coordinate {
-        return Coordinate(
-            (tank.layoutParams as FrameLayout.LayoutParams).topMargin,
-            (tank.layoutParams as FrameLayout.LayoutParams).leftMargin
-        )
     }
 
     private fun getTankNextCoordinate (view: View): Coordinate{

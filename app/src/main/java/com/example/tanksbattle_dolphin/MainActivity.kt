@@ -41,6 +41,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var playerTank: Tank
     private lateinit var eagle: Element
 
+    private val bulletDrawer by lazy {
+        BulletDrawer(
+            binding.container,
+            elementsDrawer.elementsOnContaier,
+            enemyDrawer
+        )
+    }
+
     private fun createTank(elementWidth: Int, elementHight: Int): Tank {
         playerTank = Tank(
             Element(
@@ -192,7 +200,7 @@ class MainActivity : AppCompatActivity() {
             KEYCODE_DPAD_UP -> move(UP)
             KEYCODE_DPAD_LEFT -> move(LEFT)
             KEYCODE_DPAD_RIGHT -> move(RIGHT)
-            KEYCODE_SPACE -> playerTank.bulletDrawer.makeBulletMove(playerTank)
+            KEYCODE_SPACE -> playerTank.bulletDrawer.addNewBulletForTank(playerTank)
         }
         return super.onKeyDown(keyCode, event)
     }
