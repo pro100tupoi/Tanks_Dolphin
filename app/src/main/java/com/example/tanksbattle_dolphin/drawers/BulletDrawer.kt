@@ -7,7 +7,7 @@ import android.widget.ImageView
 import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.GameCore
 import com.example.tanksbattle_dolphin.R
-import com.example.tanksbattle_dolphin.SoundManager
+import com.example.tanksbattle_dolphin.sounds.SoundManager
 import com.example.tanksbattle_dolphin.Utils.*
 import com.example.tanksbattle_dolphin.enums.Direction
 import com.example.tanksbattle_dolphin.enums.Material

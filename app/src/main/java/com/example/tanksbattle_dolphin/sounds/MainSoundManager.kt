@@ -1,9 +1,14 @@
-package com.example.tanksbattle_dolphin
+package com.example.tanksbattle_dolphin.sounds
 
 import android.content.Context
 import android.media.MediaPlayer
+import com.example.tanksbattle_dolphin.R
 
-class SoundManager(context: Context) {
+class MainSoundManager(context: Context) {
+
+    private val sounds = mutableListOf<GameSound>()
+    private val soundPool = SoundPoolFactory().createSoundPool()
+
     private val bulletBurstPlayer = MediaPlayer.create(context, R.raw.bullet_burst)
     private val bulletShotPlayer = MediaPlayer.create(context, R.raw.bullet_shot)
     private val introMusicPlayer = MediaPlayer.create(context, R.raw.tanks_pre_music)

@@ -14,7 +14,6 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.core.content.ContextCompat
-import com.example.tanksbattle_dolphin.Utils.getElementByCoordinates
 import com.example.tanksbattle_dolphin.enums.Direction.UP
 import com.example.tanksbattle_dolphin.enums.Direction.DOWN
 import com.example.tanksbattle_dolphin.enums.Direction.LEFT
@@ -31,6 +30,7 @@ import com.example.tanksbattle_dolphin.enums.Material.PLAYER_TANK
 import com.example.tanksbattle_dolphin.models.Coordinate
 import com.example.tanksbattle_dolphin.models.Element
 import com.example.tanksbattle_dolphin.models.Tank
+import com.example.tanksbattle_dolphin.sounds.SoundManager
 
 const val CELL_SIZE = 50
 

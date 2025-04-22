@@ -3,17 +3,15 @@ package com.example.tanksbattle_dolphin.drawers
 import android.widget.FrameLayout
 import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.GameCore
-import com.example.tanksbattle_dolphin.SoundManager
+import com.example.tanksbattle_dolphin.sounds.SoundManager
 import com.example.tanksbattle_dolphin.Utils.checkIfChanceBiggerThanRandom
 import com.example.tanksbattle_dolphin.Utils.drawElement
-import com.example.tanksbattle_dolphin.binding
 import com.example.tanksbattle_dolphin.enums.CELLS_TANKS_SIZE
 import com.example.tanksbattle_dolphin.enums.Direction.DOWN
 import com.example.tanksbattle_dolphin.enums.Material.ENEMY_TANK
 import com.example.tanksbattle_dolphin.models.Coordinate
 import com.example.tanksbattle_dolphin.models.Element
 import com.example.tanksbattle_dolphin.models.Tank
-import kotlin.math.tan
 
 private const val MAX_ENEMY_AMOUNT = 20
 
