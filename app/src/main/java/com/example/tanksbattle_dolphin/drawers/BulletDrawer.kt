@@ -7,7 +7,6 @@ import android.widget.ImageView
 import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.GameCore
 import com.example.tanksbattle_dolphin.R
-import com.example.tanksbattle_dolphin.sounds.SoundManager
 import com.example.tanksbattle_dolphin.Utils.*
 import com.example.tanksbattle_dolphin.enums.Direction
 import com.example.tanksbattle_dolphin.enums.Material
@@ -15,6 +14,7 @@ import com.example.tanksbattle_dolphin.models.Bullet
 import com.example.tanksbattle_dolphin.models.Coordinate
 import com.example.tanksbattle_dolphin.models.Element
 import com.example.tanksbattle_dolphin.models.Tank
+import com.example.tanksbattle_dolphin.sounds.MainSoundManager
 
 private const val BULLET_WIDTH = 15
 private const val BULLET_HEIGHT = 15
@@ -23,7 +23,7 @@ class BulletDrawer(
     private val container: FrameLayout,
     private val elements:MutableList<Element>,
     private val enemyDrawer: EnemyDrawer,
-    private val soundManager: SoundManager,
+    private val soundManager: MainSoundManager,
     private val gameCore: GameCore
     ) {
 

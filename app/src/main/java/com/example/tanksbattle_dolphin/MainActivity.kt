@@ -30,7 +30,7 @@ import com.example.tanksbattle_dolphin.enums.Material.PLAYER_TANK
 import com.example.tanksbattle_dolphin.models.Coordinate
 import com.example.tanksbattle_dolphin.models.Element
 import com.example.tanksbattle_dolphin.models.Tank
-import com.example.tanksbattle_dolphin.sounds.SoundManager
+import com.example.tanksbattle_dolphin.sounds.MainSoundManager
 
 const val CELL_SIZE = 50
 
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val soundManager by lazy {
-            SoundManager(this)
+            MainSoundManager(this)
     }
 
     private fun createTank(elementWidth: Int, elementHight: Int): Tank {
@@ -112,6 +112,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        soundManager.loadSounds()
         supportActionBar?.title = "Menu"
 
         binding.editorClear.setOnClickListener{ elementsDrawer.currentMaterial = Material.EMPTY}

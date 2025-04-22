@@ -4,75 +4,65 @@ import android.content.Context
 import android.media.MediaPlayer
 import com.example.tanksbattle_dolphin.R
 
-class MainSoundManager(context: Context) {
+private const val INTR0_MUSIC_INDEX = 0
+private const val BULLET_SHOT_INDEX = 1
+private const val BULLET_BURST_INDEX = 2
+private const val TANK_MOVE_INDEX = 3
+
+class MainSoundManager(val context: Context) {
 
     private val sounds = mutableListOf<GameSound>()
     private val soundPool = SoundPoolFactory().createSoundPool()
 
-    private val bulletBurstPlayer = MediaPlayer.create(context, R.raw.bullet_burst)
-    private val bulletShotPlayer = MediaPlayer.create(context, R.raw.bullet_shot)
-    private val introMusicPlayer = MediaPlayer.create(context, R.raw.tanks_pre_music)
-    private val tankMovePlayerFirst = MediaPlayer.create(context, R.raw.tank_move_long)
-    private val tankMovePlayerSecond = MediaPlayer.create(context, R.raw.tank_move_long)
-    private var isIntroFinished = false
-
-    init {
-        prepareGapLessTankMoveSound()
-    }
-
-//    var context: Context? = null
-//        set(value) {
-//            bulletBurstPlayer = MediaPlayer.create(value, R.raw.bullet_burst)
-//            bulletShotPlayer = MediaPlayer.create(value, R.raw.bullet_shot)
-//            introMusicPlayer = MediaPlayer.create(value, R.raw.tanks_pre_music)
-//            prepareGapLessTankMoveSound(value!!)
-//        }
-
-    private fun prepareGapLessTankMoveSound() {
-//        tankMovePlayerSecond = MediaPlayer.create(context, R.raw.tank_move_long)
-//        tankMovePlayerFirst = MediaPlayer.create(context, R.raw.tank_move_long)
-        tankMovePlayerFirst.isLooping = true
-        tankMovePlayerSecond.isLooping = true
-        tankMovePlayerFirst.setNextMediaPlayer(tankMovePlayerSecond)
-        tankMovePlayerSecond.setNextMediaPlayer(tankMovePlayerFirst)
+    fun loadSounds() {
+        sounds.add(
+            INTR0_MUSIC_INDEX, GameSound(
+                resourceInPool = soundPool.load(context, R.raw.tanks_pre_music, 1),
+                pool = soundPool
+            )
+        )
+        sounds.add(BULLET_SHOT_INDEX, GameSound(
+            resourceInPool = soundPool.load(context, R.raw.bullet_shot, 1),
+            pool = soundPool
+        ))
+        sounds.add(BULLET_BURST_INDEX, GameSound(
+            resourceInPool = soundPool.load(context, R.raw.bullet_burst, 1),
+            pool = soundPool
+        ))
+        sounds.add(TANK_MOVE_INDEX, GameSound(
+            resourceInPool = soundPool.load(context, R.raw.tank_move_long, 1),
+            pool = soundPool
+        ))
     }
 
     fun playIntroMusic() {
-        if (isIntroFinished) {
-            return
-        }
-        introMusicPlayer.setOnCompletionListener{
-            isIntroFinished = true
-        }
-        introMusicPlayer.start()
+        sounds[INTR0_MUSIC_INDEX].startOrResume(isLooping = false)
     }
 
     fun pauseSounds() {
-        bulletBurstPlayer.pause()
-        bulletShotPlayer.pause()
-        introMusicPlayer.pause()
-        tankMovePlayerFirst.pause()
-        tankMovePlayerSecond.pause()
+        pauseSounds(INTR0_MUSIC_INDEX)
+        pauseSounds(BULLET_SHOT_INDEX)
+        pauseSounds(BULLET_BURST_INDEX)
+        pauseSounds(TANK_MOVE_INDEX)
+    }
+
+    private fun pauseSounds(index: Int) {
+        sounds[index].pause()
     }
 
     fun bulletShot() {
-        bulletShotPlayer.start()
+        sounds[BULLET_SHOT_INDEX].play()
     }
 
     fun bulletBurst() {
-        bulletBurstPlayer.start()
+        sounds[BULLET_BURST_INDEX].play()
     }
 
     fun tankMove() {
-        tankMovePlayerFirst.start()
+        sounds[TANK_MOVE_INDEX].startOrResume(isLooping = true)
     }
 
     fun tankStop() {
-        if (tankMovePlayerFirst.isPlaying) {
-            tankMovePlayerFirst.pause()
-        }
-        if (tankMovePlayerSecond.isPlaying) {
-            tankMovePlayerSecond.pause()
-        }
+        sounds[TANK_MOVE_INDEX].play()
     }
 }
