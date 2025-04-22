@@ -1,5 +1,7 @@
-package com.example.tanksbattle_dolphin
+package com.example.tanksbattle_dolphin.activities
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
@@ -14,6 +16,9 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.core.content.ContextCompat
+import com.example.tanksbattle_dolphin.GameCore
+import com.example.tanksbattle_dolphin.LevelStorage
+import com.example.tanksbattle_dolphin.R
 import com.example.tanksbattle_dolphin.enums.Direction.UP
 import com.example.tanksbattle_dolphin.enums.Direction.DOWN
 import com.example.tanksbattle_dolphin.enums.Direction.LEFT
@@ -256,6 +261,13 @@ class MainActivity : AppCompatActivity() {
         if (enemyDrawer.tanks.isEmpty()) {
             soundManager.tankStop()
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK && requestCode == SCORE_REQUEST_CODE) {
+            recreate()
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }
 // androidx.constraintlayout.widget.ConstraintLayout

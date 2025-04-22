@@ -1,24 +1,24 @@
 package com.example.tanksbattle_dolphin.drawers
 
 import android.widget.FrameLayout
-import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.GameCore
-import com.example.tanksbattle_dolphin.sounds.SoundManager
 import com.example.tanksbattle_dolphin.Utils.checkIfChanceBiggerThanRandom
 import com.example.tanksbattle_dolphin.Utils.drawElement
+import com.example.tanksbattle_dolphin.activities.CELL_SIZE
 import com.example.tanksbattle_dolphin.enums.CELLS_TANKS_SIZE
 import com.example.tanksbattle_dolphin.enums.Direction.DOWN
 import com.example.tanksbattle_dolphin.enums.Material.ENEMY_TANK
 import com.example.tanksbattle_dolphin.models.Coordinate
 import com.example.tanksbattle_dolphin.models.Element
 import com.example.tanksbattle_dolphin.models.Tank
+import com.example.tanksbattle_dolphin.sounds.MainSoundManager
 
 private const val MAX_ENEMY_AMOUNT = 20
 
 class EnemyDrawer(
     private val container: FrameLayout,
     private val elements: MutableList<Element>,
-    private val soundManager: SoundManager,
+    private val soundManager: MainSoundManager,
     private val gameCore: GameCore
 ) {
     private val respawnList: List<Coordinate>
@@ -114,7 +114,16 @@ class EnemyDrawer(
         moveEnemyTanks()
     }
 
+    fun isAllTanksDestriyed(): Boolean {
+        return enemyAmount == MAX_ENEMY_AMOUNT && tanks.toList().isEmpty()
+    }
+
+    fun getPlayerScore() = enemyAmount * 100
+
     fun removeTank(tankIndex: Int) {
         tanks.removeAt(tankIndex)
+        if (isAllTanksDestriyed()) {
+            gameCore.playerWon(getPlayerScore())
+        }
     }
 }
