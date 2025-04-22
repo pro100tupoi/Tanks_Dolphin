@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.example.tanksbattle_dolphin.CELL_SIZE
+import com.example.tanksbattle_dolphin.GameCore.isPlaying
 import com.example.tanksbattle_dolphin.R
 import com.example.tanksbattle_dolphin.Utils.*
 import com.example.tanksbattle_dolphin.enums.Direction
@@ -41,6 +42,9 @@ class BulletDrawer(
     private fun moveAllBullets() {
         Thread(Runnable {
             while (true) {
+                if (!isPlaying()) {
+                    continue
+                }
                 interactWithAllBullets()
                 Thread.sleep(30)
             }

@@ -2,6 +2,7 @@ package com.example.tanksbattle_dolphin.drawers
 
 import android.widget.FrameLayout
 import com.example.tanksbattle_dolphin.CELL_SIZE
+import com.example.tanksbattle_dolphin.GameCore.isPlaying
 import com.example.tanksbattle_dolphin.Utils.checkIfChanceBiggerThanRandom
 import com.example.tanksbattle_dolphin.Utils.drawElement
 import com.example.tanksbattle_dolphin.binding
@@ -24,6 +25,7 @@ class EnemyDrawer(
     private var currentCoordinate:Coordinate
     val tanks = mutableListOf<Tank>()
     lateinit var bulletDrawer: BulletDrawer
+    private var gameStarted = false
 
     init{
         respawnList = getRespawnList()
@@ -67,9 +69,12 @@ class EnemyDrawer(
         tanks.add(enemyTank)
     }
 
-    fun moveEnemyTanks() {
+    private fun moveEnemyTanks() {
         Thread(Runnable {
             while (true) {
+                if (!isPlaying()) {
+                    continue
+                }
                 goThroughAllTanks()
                 Thread.sleep(400)
             }
@@ -86,13 +91,21 @@ class EnemyDrawer(
     }
 
     fun startEnemyCreation() {
+        if (gameStarted) {
+            return
+        }
+        gameStarted = true
         Thread(Runnable {
             while (enemyAmount < MAX_ENEMY_AMOUNT) {
+                if (!isPlaying()) {
+                    continue
+                }
                 drawEnemy()
                 enemyAmount++
                 Thread.sleep(3000)
             }
         }).start()
+        moveEnemyTanks()
     }
 
     fun removeTank(tankIndex: Int) {
