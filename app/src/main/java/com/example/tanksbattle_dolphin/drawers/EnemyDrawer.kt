@@ -27,6 +27,7 @@ class EnemyDrawer(
     val tanks = mutableListOf<Tank>()
     lateinit var bulletDrawer: BulletDrawer
     private var gameStarted = false
+    private var enemyMurders = 0
 
     init{
         respawnList = getRespawnList()
@@ -114,15 +115,16 @@ class EnemyDrawer(
         moveEnemyTanks()
     }
 
-    fun isAllTanksDestriyed(): Boolean {
-        return enemyAmount == MAX_ENEMY_AMOUNT && tanks.toList().isEmpty()
+    fun isAllTanksDestroyed(): Boolean {
+        return enemyMurders == MAX_ENEMY_AMOUNT
     }
 
-    fun getPlayerScore() = enemyAmount * 100
+    fun getPlayerScore() = enemyMurders * 100
 
     fun removeTank(tankIndex: Int) {
         tanks.removeAt(tankIndex)
-        if (isAllTanksDestriyed()) {
+        enemyMurders++
+        if (isAllTanksDestroyed()) {
             gameCore.playerWon(getPlayerScore())
         }
     }
