@@ -4,8 +4,8 @@ import android.app.Activity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.example.tanksbattle_dolphin.CELL_SIZE
-import com.example.tanksbattle_dolphin.binding
+import com.example.tanksbattle_dolphin.activities.CELL_SIZE
+import com.example.tanksbattle_dolphin.activities.binding
 import com.example.tanksbattle_dolphin.enums.Direction
 import com.example.tanksbattle_dolphin.models.Coordinate
 import com.example.tanksbattle_dolphin.models.Element

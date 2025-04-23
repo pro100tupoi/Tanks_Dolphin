@@ -4,8 +4,7 @@ import android.content.Context
 import android.widget.FrameLayout
 import android.view.View
 import android.graphics.Color
-import com.example.tanksbattle_dolphin.CELL_SIZE
-import com.example.tanksbattle_dolphin.binding
+import com.example.tanksbattle_dolphin.activities.CELL_SIZE
 
 //import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 

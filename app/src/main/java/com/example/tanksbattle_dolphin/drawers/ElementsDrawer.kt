@@ -5,10 +5,10 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
-import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.R
 import com.example.tanksbattle_dolphin.Utils.drawElement
 import com.example.tanksbattle_dolphin.Utils.getElementByCoordinates
+import com.example.tanksbattle_dolphin.activities.CELL_SIZE
 import com.example.tanksbattle_dolphin.enums.Material
 import com.example.tanksbattle_dolphin.models.Coordinate
 import com.example.tanksbattle_dolphin.models.Element

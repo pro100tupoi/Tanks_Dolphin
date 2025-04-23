@@ -2,9 +2,9 @@ package com.example.tanksbattle_dolphin.models
 
 import android.view.View
 import android.widget.FrameLayout
-import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.Utils.*
-import com.example.tanksbattle_dolphin.binding
+import com.example.tanksbattle_dolphin.activities.CELL_SIZE
+import com.example.tanksbattle_dolphin.activities.binding
 import com.example.tanksbattle_dolphin.drawers.BulletDrawer
 import com.example.tanksbattle_dolphin.drawers.EnemyDrawer
 import com.example.tanksbattle_dolphin.enums.Direction
