@@ -4,10 +4,10 @@ import android.app.Activity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.example.tanksbattle_dolphin.CELL_SIZE
 import com.example.tanksbattle_dolphin.GameCore
 import com.example.tanksbattle_dolphin.R
 import com.example.tanksbattle_dolphin.Utils.*
+import com.example.tanksbattle_dolphin.activities.CELL_SIZE
 import com.example.tanksbattle_dolphin.enums.Direction
 import com.example.tanksbattle_dolphin.enums.Material
 import com.example.tanksbattle_dolphin.models.Bullet
@@ -121,9 +121,9 @@ class BulletDrawer(
 
     private fun compareCollections(detectedCoordinatesList: List<Coordinate>, bullet: Bullet) {
         for (coordinate in detectedCoordinatesList) {
-            var element = getElementByCoordinates(coordinate, elements)
+            var element = getTankByCoordinates(coordinate, enemyDrawer.tanks)
             if (element == null) {
-                element = getTankByCoordinates(coordinate, enemyDrawer.tanks)
+                element = getElementByCoordinates(coordinate, elements)
             }
             if (element == bullet.tank.element) {
                 continue
@@ -134,19 +134,20 @@ class BulletDrawer(
 
     private fun removeElementsAndStopBullet(element: Element?, bullet: Bullet) {
         if (element != null) {
-            if (element.material.bulletCanGoThrough) {
-                return
-            }
             if (bullet.tank.element.material == Material.ENEMY_TANK
                 && element.material == Material.ENEMY_TANK
             ) {
                 stopBullet(bullet)
                 return
             }
+            if (element.material.bulletCanGoThrough) {
+                return
+            }
             if (element.material.simpleBulletCanDestroy) {
                 stopBullet(bullet)
                 removeView(element)
-                removeView(element)
+                removeElement(element)
+                stopGameIfNecessary(element)
                 removeTank(element)
             } else {
                 stopBullet(bullet)
@@ -155,6 +156,10 @@ class BulletDrawer(
     }
 
     private fun removeElement(element: Element) {
+        elements.remove(element)
+    }
+
+    private fun stopGameIfNecessary(element: Element) {
         elements.remove(element)
         if (element.material == Material.PLAYER_TANK || element.material == Material.EAGLE) {
             gameCore.destroyPlayerOrBase()
