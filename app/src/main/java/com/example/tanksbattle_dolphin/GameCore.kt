@@ -49,11 +49,9 @@ class GameCore(private val activity: Activity) {
             binding.gameOverText.startAnimation(slideUp)
             slideUp.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(animation: Animation) {
-                    TODO("Not yet implemented")
                 }
 
                 override fun onAnimationRepeat(animation: Animation) {
-                    TODO("Not yet implemented")
                 }
 
                 override fun onAnimationEnd(animation: Animation) {
